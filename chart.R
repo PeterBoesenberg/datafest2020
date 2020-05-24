@@ -44,11 +44,22 @@ get_battles_chart <- function(ukraine) {
 
 get_top_actors_chart <- function(dt) {
   y_axis <- list(title="Participant")
-  x_axis <- list(title="Count of conflicts",
-                 margin = list(l = 50, r = 50, b = 50, t = 50, pad = 4))
-  print(dt[1:10])
+  x_axis <- list(title="Count of conflicts")
+
   fig <- plot_ly(dt[1:10],y=~reorder(actor, count), x=~count, type = "bar", orientation="h")
   fig <- fig %>% layout(title="Top 10 participants in armed conflicts in the Ukraine 2018-2020",
+                        yaxis=y_axis,
+                        xaxis=x_axis,
+                        annotations = annotation)
+  fig
+}
+
+get_battles_by_date_chart <- function(dt) {
+  
+  y_axis <- list(title="Count of battles", rangemode="tozero")
+  x_axis <- list(title="Month of battles")
+  fig <- plot_ly(dt,y=~N, x=~reorder(date,order_date), type="scatter", mode="line")
+  fig <- fig %>% layout(title="Battles in the Ukraine 2018-2020 by month",
                         yaxis=y_axis,
                         xaxis=x_axis,
                         annotations = annotation)

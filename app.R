@@ -1,5 +1,7 @@
 library(data.table)
 library(plotly)
+library(lubridate)
+library(stringr)
 
 source("chart.R")
 
@@ -17,12 +19,15 @@ get_actors <- function(ukraine) {
   actors <- first_actors[second_actors, ':='(actor=ACTOR1,count=count+i.count)][order(-count)]
   actors
 }
-#   
-# 
-# get_armed_conflicts_chart(ukraine)
-# get_battles_chart(ukraine)
-# get_actors(ukraine)
+
+get_armed_conflicts_chart(ukraine)
+get_battles_chart(ukraine)
 get_top_actors_chart(get_actors(ukraine))
 
+get_battles_by_date <- function(dt) {
+  battles <- dt[EVENT_TYPE=="Battles", .(.N), by = .(year(dmy(EVENT_DATE)),month(dmy(EVENT_DATE)))][,':='(date=paste0(month, " ", year), order_date=floor_date(dmy(paste0("01", str_pad(month,2, pad="0"), year)), unit="month"))]
+  battles
+}
 
+get_battles_by_date_chart(get_battles_by_date(ukraine))
 
