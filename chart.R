@@ -1,3 +1,4 @@
+# Setup styling and markings to use througout all charts
 g <- list(
   projection = list(scale=5),
   showland = TRUE,
@@ -16,7 +17,6 @@ annotation <- list(x = 1, y = 0, text = footnote,
                    font=list(size=10))
 
 get_armed_conflicts_chart <- function(ukraine) {
-  
   fig <- plot_geo(ukraine, sizes = c(1, 450))
   fig <- fig %>% add_markers(
     x = ~LONGITUDE, y = ~LATITUDE, size = ~count, color=~count,  hoverinfo = "text", showlegend=T,
@@ -29,6 +29,7 @@ get_armed_conflicts_chart <- function(ukraine) {
   
   fig
 }
+
 get_battles_chart <- function(ukraine) {
   ukrainian_battles <- dt[COUNTRY=="Ukraine"][EVENT_TYPE=="Battles"][, count:=.(.N), by = .(LOCATION)]
   fig2 <- plot_geo(ukrainian_battles, sizes = c(1, 450))
